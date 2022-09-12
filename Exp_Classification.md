@@ -1,6 +1,8 @@
 # [E-01]Classification
 ## 목차
 
+-프로젝트에서 사용한 코드
+
 -프로젝트 1: 손글씨 분류하기
 
 -프로젝트 2: 와인 분류하기
@@ -27,6 +29,16 @@
 
 -----------
 
+## 프로젝트에서 사용한 라이브러리
+
+#### scikit-learn
+
+데이터셋을 학습시키기 위해 scikit-learn 라이브러리를 가져왔다. 여기에는 우리가 연습을 위해 사용할 데이터셋, 머신러닝을 위한 모델들, 학습한 모델을 테스트하고 그 결과를 보여줄 수 있는 도구들을 제공한다.
+
+특히 이번 실습에서는 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression 이렇게 5개의 내장된 모델을 사용하고 비교한다.
+
+-------------
+
 ## 프로젝트 1: 손글씨 분류하기
 
 ### 데이터 파악하기
@@ -42,16 +54,102 @@ print(digits.DESCR)
 
 ### 모델 학습하고 평가하기
 
-data를 feature로, target을 label로 두고 5개의 모델을 학습시켜 그 결과를 보았다. 이 때 test set은 전체 데이터셋의 20%이다.
+data를 feature로, target을 label로 두고 5가지 모델을 학습시켜 그 결과를 보았다. 이 때 test set은 전체 데이터셋의 20%이다.
 
 학습을 위해 사용한 모델은 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression이다.
 
 글씨를 분류함에 있어서 거짓 음성도, 거짓 양성도 최소화해야한다. 0이 아닌 숫자를 0으로 인식하거나, 0을 다른 숫자로 인식해서는 안 되며 둘 다 중요한 문제이다.  
 따라서 모델을 평가할 때 정밀도와 재현률 이 두 요소를 모두 고려할 수 있는 F1 스코어를 사용하는 것이 좋다.  
-test set은 무작위로 선정되므로 각 타겟의 support가 조금씩 다르다. 그러므로 F1 스코어의 weighted avg 값을 보고 모델을 평가하기로 했다.
+test set은 무작위로 선정되는데 각 타겟의 테스트 타겟이 그리 많지 않으므로 support의 차이가 상대적으로 조금 있다. 그러므로 F1 스코어의 weighted avg 값을 보고 모델을 평가하기로 했다.
 
 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression의 F1 스코어값은 순서대로
 
 0.85, 0.97, 0.98, 0.94, 0.96 이었다.
 
 Decision Tree 모델보다 다른 4가지 모델들이 분류를 더 잘하고 있음을 알 수 있었으며 그 중에서는 대동소이하지만 SVM 모델이 가장 효과가 좋다는 것을 알 수 있었다.
+
+--------------------
+
+## 프로젝트 2: 와인 분류하기
+
+### 데이터 파악하기
+
+우선 우리가 분류하려는 데이터셋에 대해 알기 위해  
+
+print(wine.target_names)  
+print(wine.DESCR)  
+
+이 두 가지를 먼저 실행해보았다.
+
+이 데이터셋은 Class_0, Class_1, Class_2 세 종류의 와인을 13가지 항목의 특징들을 가지고 분류해놓은 것이다. scikit-learn 사이트에 따르면 각각 59,71,48개로 총합 178개의 데이터 샘플이 들어있다고 한다.
+
+### 모델 학습하고 평가하기
+
+마찬가지로 13개 항목의 데이터를 feature로, target class를 label로 두고 5가지 모델을 학습시켜 그 결과를 보았다. test set은 전체 데이터셋의 20%이다.
+
+학습을 위해 사용한 모델은 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression이다.
+
+와인을 분류할 때에 정밀도와 재현률 모두 고려해야하므로 손글씨와 마찬가지로 F1 스코어값을 사용하는 것이 좋다.  
+test set은 무작위로 선정되는데 처음 데이터셋에서부터 각 타겟 데이터의 수의 차이가 크므로 weighted avg 값을 보고 모델을 평가하기로 했다.
+
+Decision Tree, Random Forest, SVM, Logistic Regression의 F1 스코어값은 순서대로  
+
+0.86, 1.00, 0.70, 0.95 였다.
+
+SGD Classifier 모델은 실행할 때마다 값이 크게 변해 3회 실시하여 측정했다. 각각  
+
+0.58, 0.68, 0.63이 나왔는데 다른 모델에 비해 분류 성능이 좋지 못 했으며 심지어 Class_2를 아예 분류해내지 못하는 경우도 많았다.
+
+wine dataset을 분류하는 데에는 Random Forest가 가장 성능이 좋았으며 Logistic Regression이 뒤를 이었다.
+
+여기서 SVM과 SGD Classifier가 손글씨 분류에서 했던 것과는 달리 매우 낮은 성능을 보이고 있으며 특히 SGD Classifier는 Class_2를 분류하지 못 하기도 하는 등의 문제가 발생했다.
+
+우선 SVM의 경우 제대로 학습하기 위해서는 여러개의 데이터 조합을 테스트할 필요가 있으며 이를 위해서 많은 양의 데이터셋이 필요하다. 그러나 와인 분류에서 우리가 가진 데이터셋은 178개 뿐이 되지 않는다. 따라서 정확한 예측을 위해 필요한 데이터의 갯수에 미치지 못 했으며 이로 인해 낮은 성능을 내고 있다.
+
+SGD Classifier는 여러가지 문제가 발생하는 경우가 있는데 여기에서는 가중치 스케일에 대한 문제로 보인다. 데이터셋을 들여다보면 다양한 항목들이 있는데 이것들이 와인을 분류할 때 가중치가 차이가 나게 되면 함수의 기울기의 방향이 최솟값으로 향하는 방향과 차이가 발생하게 된다. 원래 기울기의 방향이 최솟값의 방향임을 이용한 모델이기 때문에 발생한 문제로 보인다. 따라서 이 와인 데이터셋에서 사용하기에는 적합하지 않은 모델임을 알 수 있었다.
+
+------------------
+
+## 프로젝트 3: 유방암 여부 진단하기
+
+### 데이터 파악하기
+
+우리가 분류하는 데이터셋에 대해 알기 위해
+
+print(breast_cancer.target_names)
+print(breast_cancer.DESCR)
+
+이 두 가지를 먼저 실행해보았다.
+
+이 데이터셋은 569개의 케이스에 대해 유방암 악성과 양성으로 분류해 진단한다. 이를 위해 30가지의 속성을 사용한다. scikit-learn 사이트에 따르면 212개의 악성과 357개의 양성으로 나뉜다고 한다.
+
+### 모델 학습하고 평가하기
+
+30개 항목의 data를 feature로, 악성 여부를 label로 두고 5가지 모델을 학습시켜 그 결과를 보았다. test set은 전체 데이터셋의 20%이다.
+
+학습을 위해 사용한 모델은 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression이다.
+
+유방암의 여부를 진단하는 데에는 환자를 양성으로 오진하는 일은 없어야만 한다. 따라서 가장 중요한 평가 척도는 재현률이다. 재현률(recall)을 통해 악성인 환자가 주어졌을 때 얼마나 잘 악성으로 분류하는데 성공했는지를 알 수 있다.
+
+악성인 데이터샘플과 양성인 데이터 샘플의 수가 차이가 크므로 recall의 weighted avg를 보자. 
+
+Decision Tree, Random Forest, SVM, Logistic Regression의 recall값은 순서대로  
+
+0.94, 0.97, 0.94, 0.92, 0.96 이다.
+
+결과에서 큰 차이는 없지만 Random Forest모델이 가장 재현률이 높았으며 그 뒤를 Logistic Regression이 이었다.
+
+위의 와인 분류 데이터셋보다도 더 많은 분류항목을 가지고 있으나 SGD Classifier 모델에서 문제가 발생하지 않았다. F1 스코어를 비교해봐도 0.9 이상의 높은 기록을 보여주었다. 이는 와인과는 달리 신체부위의 데이터를 사용하면서 각 항목들이 비슷한 가중치를 가지고 있기 때문으로 보인다. 
+
+--------------------
+
+### Reference
+
+https://muzukphysics.tistory.com/135  
+https://gooopy.tistory.com/67  
+https://deep-learning-study.tistory.com/156
+
+--------------------
+
+## 회고
+
