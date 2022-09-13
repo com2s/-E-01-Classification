@@ -7,7 +7,7 @@
 
 -프로젝트 2: 와인 분류하기
 
--프로젝트 3: 유방암 분류하기
+-프로젝트 3: 유방암 여부 진단하기
 
 회고
 
@@ -85,7 +85,7 @@ print(wine.DESCR)
 
 ### 모델 학습하고 평가하기
 
-마찬가지로 13개 항목의 데이터를 feature로, target class를 label로 두고 5가지 모델을 학습시켜 그 결과를 보았다. test set은 전체 데이터셋의 20%이다.
+마찬가지로 13개 항목의 컬럼을 feature로, target class를 label로 두고 5가지 모델을 학습시켜 그 결과를 보았다. test set은 전체 데이터셋의 20%이다.
 
 학습을 위해 사용한 모델은 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression이다.
 
@@ -125,7 +125,7 @@ print(breast_cancer.DESCR)
 
 ### 모델 학습하고 평가하기
 
-30개 항목의 data를 feature로, 악성 여부를 label로 두고 5가지 모델을 학습시켜 그 결과를 보았다. test set은 전체 데이터셋의 20%이다.
+30개 항목의 컬럼 feature로, 악성 여부를 label로 두고 5가지 모델을 학습시켜 그 결과를 보았다. test set은 전체 데이터셋의 20%이다.
 
 학습을 위해 사용한 모델은 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression이다.
 
@@ -133,7 +133,7 @@ print(breast_cancer.DESCR)
 
 악성인 데이터샘플과 양성인 데이터 샘플의 수가 차이가 크므로 recall의 weighted avg를 보자. 
 
-Decision Tree, Random Forest, SVM, Logistic Regression의 recall값은 순서대로  
+Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression의 recall값은 순서대로  
 
 0.94, 0.97, 0.94, 0.92, 0.96 이다.
 
@@ -143,13 +143,24 @@ Decision Tree, Random Forest, SVM, Logistic Regression의 recall값은 순서대
 
 --------------------
 
+## 회고
+
+이번 실습에서는 Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression 이렇게 5개의 모델을 가지고 머신러닝을 진행했다.  
+각각의 모델마다 다른 특징과 장단점을 가지고 있다. Random Forest는 원리상 다수의 Decision Tree를 중첩하여 작동하기 때문에 그 성능이 하나의 Decision Tree보다 더 좋았으며 데이터에 따라 SVM과 SGD Classifier는 성능이 크게 떨어진다는 것을 확인할 수 있었다. 따라서 앞으로도 어떤 데이터를 사용하느냐에 따라 사용해야할 모델이 달라짐을 알 수 있었다. 특히 주어진 데이터가 많느냐 적느냐, 또는 컬럼으로 나눠진 항목들이 서로 독립적인가 상관관계가 있느냐에 따라서 이런 큰 차이를 보인다는 점이 흥미로웠다. 이번에는 Random Forest와 Logisitic Regression 모델이 잘 작동했으나 이 모델들에도 단점이 존재할 것이다.
+
+모델을 사용하고 그 성능을 평가할 때 어떤 평가지표를 볼 것인가는 그 모델의 용도와 데이터에 따라 달리 해야한다. 정밀도와 재현률을 기본으로 하여 평가를 하는데 손글씨 분류와 와인 분류에 있어서는 이 두가지를 모두 균형있게 평가할 수 있는 지표인 F1 스코어를 사용했다. 그러나 환자 진단처럼 정밀도와 재현률 중 하나가 특히 더 중요한 경우엔 그 쪽을 중점으로 평가하여야한다. 유방암 여부 진단에서는 환자가 아닌 사람을 환자로 잘못 평가하더라도, 환자를 환자가 아니라고 실수하는 경우는 없어야하므로 재현률을 평가지표로 삼았다.
+
+위에서 보았듯이 머신러닝을 잘 하기 위해서는 데이터와 그 용도를 잘 이해하고 파악해야한다. 그리고 어떤 모델을 적용할 것인가, 어떤 평가지표로 모델을 평가할 것인가가 매우 중요하다고 할 수 있다. 데이터셋에 따라 어떤 모델은 비효율적일 수 있고, 어떤 모델은 특히 효율적일 수 있다. 또한 평가지표를 잘 적용해야 가장 나은 모델을 선택하고 얼마나 학습이 필요한지 알 수 있다.
+
+머신러닝을 위한 다양한 모델과 방법론이 존재하는 만큼 어떤 모델을 선택해야하는지 결정하는 것은 아주 중요하다. 또한 이번 실습에서는 평가지표만을 가지고 모델을 찾았으나 실제로는 얼마나 많인 메모리와 시간이 필요한가 또한 중요한 요소이다. 무한한 메모리와 시간이 주어진다면 좋겠지만 당연히 이는 제한된 자원이므로 효율적인 모델을 찾아야한다는 점은 당연한 일이다.
+
+-------------------
+
 ### Reference
 
 https://muzukphysics.tistory.com/135  
 https://gooopy.tistory.com/67  
 https://deep-learning-study.tistory.com/156
-
---------------------
-
-## 회고
+https://blog.naver.com/jinp7/222641379117
+https://zephyrus1111.tistory.com/233 
 
