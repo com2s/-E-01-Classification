@@ -160,7 +160,7 @@ Decision Tree, Random Forest, SVM, SGD Classifier, Logistic Regression의 recall
 
 https://muzukphysics.tistory.com/135  
 https://gooopy.tistory.com/67  
-https://deep-learning-study.tistory.com/156
-https://blog.naver.com/jinp7/222641379117
-https://zephyrus1111.tistory.com/233 
+https://deep-learning-study.tistory.com/156  
+https://blog.naver.com/jinp7/222641379117  
+https://zephyrus1111.tistory.com/233  
 
